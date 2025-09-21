@@ -96,6 +96,10 @@ blog-platform
    npm start
    ```
 
+####output screen shots
+
+![1](images/1.png)
+
 ### API Documentation
 
 Refer to the backend README for detailed API endpoints and usage.
