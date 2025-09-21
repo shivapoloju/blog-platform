@@ -98,7 +98,41 @@ blog-platform
 
 ####output screen shots
 
+register
 ![1](images/1.png)
+
+home-1
+![2](images/2.png)
+
+home-2
+![3](images/3.png)
+
+create-post
+![4](images/4.png)
+
+created-post in home
+![5](images/5.png)
+
+post in readmore view
+![6](images/6.png)
+
+dropdown profile
+![7](images/7.png)
+
+myposts
+![8](images/8.png)
+
+editpost
+![9](images/9.png)
+
+deletepost
+![10](images/10.png)
+
+no posts available
+![11](images/11.png)
+
+MyProfile
+![12](images/12.png)
 
 ### API Documentation
 
