@@ -1,23 +1,9 @@
-
 import axios from 'axios';
 
-// Like/unlike a post
-export const likePost = async (postId, token) => {
-    const response = await axios.post(`${API_URL}/posts/${postId}/like`, {}, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-};
+// Use environment variable if available, otherwise fallback to localhost
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-// Increment view count
-export const incrementView = async (postId) => {
-    const response = await axios.post(`${API_URL}/posts/${postId}/view`);
-    return response.data;
-};
-
-const API_URL = 'http://localhost:5000/api'; // Adjust the URL as needed
-
-// Auth API calls
+// -------------------- Auth API --------------------
 export const registerUser = async (userData) => {
     const response = await axios.post(`${API_URL}/auth/register`, userData);
     return response.data;
@@ -28,7 +14,7 @@ export const loginUser = async (credentials) => {
     return response.data;
 };
 
-// Blog Post API calls
+// -------------------- Blog Post API --------------------
 export const fetchPosts = async () => {
     const response = await axios.get(`${API_URL}/posts`);
     return response.data;
@@ -40,38 +26,29 @@ export const fetchPostById = async (postId) => {
 };
 
 export const createPost = async (postData, token) => {
-    // If postData is FormData, send as multipart, else send as JSON
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
+    let config = { headers: { Authorization: `Bearer ${token}` } };
+
     if (postData instanceof FormData) {
         config.headers['Content-Type'] = 'multipart/form-data';
-        const response = await axios.post(`${API_URL}/posts`, postData, config);
-        return response.data;
     } else {
         config.headers['Content-Type'] = 'application/json';
-        const response = await axios.post(`${API_URL}/posts`, postData, config);
-        return response.data;
     }
+
+    const response = await axios.post(`${API_URL}/posts`, postData, config);
+    return response.data;
 };
 
 export const updatePost = async (postId, postData, token) => {
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    };
+    let config = { headers: { Authorization: `Bearer ${token}` } };
+
     if (postData instanceof FormData) {
         config.headers['Content-Type'] = 'multipart/form-data';
-        const response = await axios.put(`${API_URL}/posts/${postId}`, postData, config);
-        return response.data;
     } else {
         config.headers['Content-Type'] = 'application/json';
-        const response = await axios.put(`${API_URL}/posts/${postId}`, postData, config);
-        return response.data;
     }
+
+    const response = await axios.put(`${API_URL}/posts/${postId}`, postData, config);
+    return response.data;
 };
 
 export const deletePost = async (postId, token) => {
@@ -81,14 +58,20 @@ export const deletePost = async (postId, token) => {
     return response.data;
 };
 
+// -------------------- Likes / Views --------------------
+export const likePost = async (postId, token) => {
+    const response = await axios.post(`${API_URL}/posts/${postId}/like`, {}, {
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+};
 
-export async function getPost(id) {
-  const response = await axios.get(`http://localhost:5000/api/posts/${id}`);
-  return response.data;
-}
-// ...existing code...
+export const incrementView = async (postId) => {
+    const response = await axios.post(`${API_URL}/posts/${postId}/view`);
+    return response.data;
+};
 
-// Profile API calls
+// -------------------- User Profile --------------------
 export const fetchUserProfile = async () => {
     const token = localStorage.getItem('token');
     const response = await axios.get(`${API_URL}/profiles/me`, {
@@ -96,3 +79,9 @@ export const fetchUserProfile = async () => {
     });
     return response.data;
 };
+
+// -------------------- Single Post Helper --------------------
+export async function getPost(id) {
+    const response = await axios.get(`${API_URL}/posts/${id}`);
+    return response.data;
+}
